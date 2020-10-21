@@ -47,7 +47,10 @@ class Solution {
         if (paragraph.length()==0 || paragraph==null) return "";
         
         //String[] strArr = str.split("[ \\p{P}\\p{S}]+");
-        String[] strArr=paragraph.toLowerCase().split("[^a-z]");
+        //String[] strArr=paragraph.toLowerCase().split("[^a-z]");
+        //String[] strArr=paragraph.toLowerCase().split("[,\\s.!?;']");
+        //String[] strArr=paragraph.toLowerCase().split("[,\\s.!?;']+");
+        String[] strArr=paragraph.toLowerCase().split("[\\W\\s]+");
         
         LinkedHashMap<String,Integer> dicT=new LinkedHashMap<>();
         
