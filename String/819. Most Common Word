@@ -40,6 +40,8 @@ Words only consist of letters, never apostrophes or other punctuation symbols.
 
 
 
+1)
+
 
 class Solution {
     public String mostCommonWord(String paragraph, String[] banned) {
@@ -82,3 +84,38 @@ class Solution {
     }
 }
 
+
+------------------------------------------------------------------------------------------------------
+
+2)
+
+
+class Solution {
+    public String mostCommonWord(String paragraph, String[] banned) {
+       
+        if(paragraph.length()==0 || paragraph==null) return ""; 
+        
+        String[] str = paragraph.toLowerCase().split("[\\W\\s]+");
+                        
+        Map<String,Integer> dicT= new HashMap<>();
+        for(int i=0;i<str.length;i++)
+            dicT.put(str[i],dicT.getOrDefault(str[i],0)+1);
+        
+        PriorityQueue<String> maxHeap = new PriorityQueue((x,y)->dicT.get(y)-dicT.get(x));     
+        maxHeap.addAll(dicT.keySet());
+                
+        while(maxHeap.size()>0){     
+            boolean flag =true;
+            for(int i=0;i<banned.length;i++){
+                if(banned[i].equals(maxHeap.peek())){
+                    maxHeap.poll();
+                    flag=false;
+                    break;
+                }
+            }
+            if(flag) break;
+        }
+        
+        return maxHeap.peek();
+    }
+}
