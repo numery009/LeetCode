@@ -1,0 +1,76 @@
+17. Letter Combinations of a Phone Number
+Medium
+
+4649
+
+452
+
+Add to List
+
+Share
+Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
+
+A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+
+
+
+ 
+
+Example 1:
+
+Input: digits = "23"
+Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+Example 2:
+
+Input: digits = ""
+Output: []
+Example 3:
+
+Input: digits = "2"
+Output: ["a","b","c"]
+ 
+
+Constraints:
+
+0 <= digits.length <= 4
+digits[i] is a digit in the range ['2', '9'].
+
+
+
+--------------------------------------------------------
+
+
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        
+        List<String> result = new ArrayList();
+        
+        if(digits.length()==0 || digits==null) return result;
+        
+        Map<Integer,String> dicT = new HashMap();
+        dicT.put(2,"abc");
+        dicT.put(3,"def");
+        dicT.put(4,"ghi");
+        dicT.put(5,"jkl");
+        dicT.put(6,"mno");
+        dicT.put(7,"pqrs");
+        dicT.put(8,"tuv");
+        dicT.put(9,"wxyz");
+                        
+        this.combination(dicT,digits,"",0,result);
+        
+        return result;
+    }
+    
+    public void combination(Map<Integer,String> dicT, String digits, String current, int index, List<String> result){
+        if(current.length()==digits.length()){
+            result.add(current);
+            return;
+        }
+        
+        String str=dicT.get(digits.charAt(index)-'0');
+        for(int i=0;i<str.length();i++)
+            this.combination(dicT,digits,current + str.charAt(i),index+1,result);
+        
+    }
+}
