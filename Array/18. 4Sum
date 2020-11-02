@@ -82,3 +82,57 @@ Constraints:
         }
     }
 }
+
+
+
+3) class Solution {
+
+ public List<List<Integer>> fourSum(int[] nums, int target) {
+    Arrays.sort(nums);
+    int start=0;
+    int k=4;
+    return this.kSum(nums,target,start,k);            
+ }
+
+ public List<List<Integer>> kSum(int[] nums, int target, int start, int k){
+    
+    List<List<Integer>> output= new ArrayList<>();
+    
+    if(start==nums.length || nums[start] * k>target || nums[nums.length-1]*k<target)
+        return output;
+    
+    if(k==2)
+       return this.twoSum(nums,target,start);
+    for(int i=start;i<nums.length;i++){
+        if(i==start || nums[i-1]!=nums[i])
+            for(var set: kSum(nums, target-nums[i],i+1,k-1)){
+                output.add(new ArrayList<>(Arrays.asList(nums[i])));
+                output.get(output.size()-1).addAll(set);
+            }
+        
+    }
+    return output;
+    
+    
+ }
+
+ public List<List<Integer>> twoSum(int[] nums, int Target, int start){
+    
+    
+    List<List<Integer>> output=new ArrayList<>();
+    Set<Integer> set=new HashSet<>();
+    
+    for(int i=start;i<nums.length;i++){
+        if(output.isEmpty() || output.get(output.size()-1).get(1) !=nums[i]){
+            int vector=Target-nums[i];
+            if(set.contains(vector)){
+                output.add(Arrays.asList(vector, nums[i]));
+            }
+        }
+        set.add(nums[i]);
+    }
+    
+    return output;
+ }
+
+}
