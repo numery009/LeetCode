@@ -1,0 +1,129 @@
+1299. Replace Elements with Greatest Element on Right Side
+Easy
+
+526
+
+121
+
+Add to List
+
+Share
+Given an array arr, replace every element in that array with the greatest element among the elements to its right, and replace the last element with -1.
+
+After doing so, return the array.
+
+ 
+
+Example 1:
+
+Input: arr = [17,18,5,4,6,1]
+Output: [18,6,6,6,1,-1]
+ 
+
+Constraints:
+
+1 <= arr.length <= 10^4
+1 <= arr[i] <= 10^5
+
+-------------------------------------------------------------------------------------
+
+
+1) class Solution {
+    public int[] replaceElements(int[] arr) {
+        
+        int[] nArr = new int[arr.length];
+        
+        if(arr.length==0) return nArr;
+        int max=Integer.MIN_VALUE;
+        Map<Integer, Integer> dicT = new HashMap<>();
+        int j=0;
+        for(int i=0;i<arr.length;i++){
+            findMax(arr,i,dicT);            
+            Iterator it =dicT.entrySet().iterator();
+            Map.Entry<Integer, Integer> entry = (Map.Entry<Integer,Integer>)it.next();
+            i=entry.getValue();   
+            while(j<i)
+                nArr[j++]=entry.getKey();
+                     
+        }
+        
+        nArr[arr.length-1] = -1;
+        
+        return nArr;
+    }
+    
+    public void findMax(int[] arr, int index,Map<Integer,Integer> dicT){
+        
+        int max=Integer.MIN_VALUE;
+        for(int i=index;i<arr.length;i++){
+            if(arr[i]>max){
+                dicT.clear();
+                max=arr[i];
+                dicT.put(arr[i],i);
+            }
+        }
+    }
+}
+
+
+2) class Solution {
+    public int[] replaceElements(int[] arr) {
+        int len= arr.length;
+        int max= arr[len-1];
+        arr[len-1]=-1;
+        
+        
+        for(int i=len-2;i>=0;i--){
+            int temp= arr[i];            
+            arr[i]=max;            
+            max=Math.max(max,temp);
+        }
+        return arr;
+    }
+}
+
+
+3) class Solution {
+    public int[] replaceElements(int[] arr) {
+        
+        if(arr.length==0) return new int[] {};                                
+            
+        int[] result =new int[arr.length];
+        
+        int j=0;
+        for(int i=0;i<arr.length;i++){
+            int max = this.max(arr,i);
+            i = this.index(arr, max,i);
+            result[j]=max;
+            while(j<i){                
+                result[j]=max;
+                j++;
+            }
+            
+        }
+                           
+        result[arr.length-1]=-1;        
+                                                
+        return result;
+    }
+    
+    public int max(int[] arr, int index){
+        int max=Integer.MIN_VALUE;        
+        for(int i=index;i<arr.length;i++){
+            if(max<arr[i]){
+                max=arr[i];                
+            }
+        }
+        
+        return max;
+    }
+    
+    public int index(int[] arr, int val, int index){
+        
+        for(int i=index;i<arr.length;i++){
+            if(arr[i]==val)
+                return i;
+        }
+        return 0;
+    }
+}
