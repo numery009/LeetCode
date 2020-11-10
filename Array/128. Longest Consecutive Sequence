@@ -1,0 +1,101 @@
+128. Longest Consecutive Sequence
+Hard
+
+4213
+
+208
+
+Add to List
+
+Share
+Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
+
+Follow up: Could you implement the O(n) solution? 
+
+ 
+
+Example 1:
+
+Input: nums = [100,4,200,1,3,2]
+Output: 4
+Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+Example 2:
+
+Input: nums = [0,3,7,2,5,8,4,6,0,1]
+Output: 9
+ 
+
+Constraints:
+
+0 <= nums.length <= 104
+-109 <= nums[i] <= 109
+
+-----------------------------------------------------------------------
+
+1) class Solution {
+
+    public int longestConsecutive(int[] nums) {
+        
+        if(nums.length==0) return 0;
+        
+        int longest=Integer.MIN_VALUE;
+        Set<Integer> set= new HashSet();
+        for(int i : nums)
+            set.add(i);                                
+        
+        for(int i : set){
+            if(!set.contains(i-1)){
+                int curr=i;
+                int consec=1;
+                while(set.contains(curr+1)){
+                    consec++;
+                    curr++;
+                }
+                longest=Math.max(longest,consec);
+            }
+        }
+        
+        
+        return longest;
+    }
+}
+
+
+
+2) class Solution {
+
+    public int longestConsecutive(int[] nums) {
+        
+        if(nums.length == 0 || nums==null) return 0;
+        
+        Arrays.sort(nums);        
+        System.out.print(Arrays.toString(nums));
+        
+        
+        LinkedHashSet<Integer> lSet=new LinkedHashSet();
+        for(int i=0;i<nums.length;i++)
+            lSet.add(nums[i]);
+        
+        int[] iArr=new int[lSet.size()];
+        int j=0;
+        for(int i: lSet)
+            iArr[j++]=i;
+        System.out.print(Arrays.toString(iArr));
+        
+        
+        LinkedHashSet<Integer> set=new LinkedHashSet();
+        int count=0;
+        for(int i=0;i<iArr.length-1;i++){
+            if(Math.abs(iArr[i+1]-iArr[i])==1) 
+                count++;
+            else{
+                set.add(count);
+                count=0;                
+            }
+            set.add(count);
+        }
+            
+        System.out.print(set);
+        return   (!set.isEmpty()) ? Collections.max(set)+1 : 1;
+    }
+}
