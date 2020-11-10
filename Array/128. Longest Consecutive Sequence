@@ -54,8 +54,6 @@ Constraints:
                 longest=Math.max(longest,consec);
             }
         }
-        
-        
         return longest;
     }
 }
