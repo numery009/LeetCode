@@ -1,0 +1,106 @@
+85. Maximal Rectangle
+Hard
+
+3458
+
+75
+
+Add to List
+
+Share
+Given a rows x cols binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
+
+ 
+
+Example 1:
+
+
+Input: matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
+Output: 6
+Explanation: The maximal rectangle is shown in the above picture.
+Example 2:
+
+Input: matrix = []
+Output: 0
+Example 3:
+
+Input: matrix = [["0"]]
+Output: 0
+Example 4:
+
+Input: matrix = [["1"]]
+Output: 1
+Example 5:
+
+Input: matrix = [["0","0"]]
+Output: 0
+ 
+
+Constraints:
+
+rows == matrix.length
+cols == matrix.length
+0 <= row, cols <= 200
+matrix[i][j] is '0' or '1'.
+
+
+-------------------------------------------------------------------------------------
+
+
+
+class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        
+        if(matrix.length==0) return 0;
+        
+        int[] arr = new int[matrix[0].length];
+        
+        int maxArea=0;
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<matrix[0].length;j++){
+                if(matrix[i][j]=='1')
+                    arr[j]+=1;
+                else
+                    arr[j]=0;
+            }            
+            maxArea=Math.max(maxArea,this.maximumRectangle(arr));
+        }
+        return maxArea;
+    }
+    
+    public int maximumRectangle(int[] arr){
+        
+        Stack<Integer> stack = new Stack<>();
+        stack.add(0);
+        
+        int max=0;
+        for(int i=1;i<arr.length;i++){
+            int curr = arr[i];
+            if(curr>=arr[stack.peek()])
+                stack.add(i);
+            else{
+                while(!stack.isEmpty() && curr<arr[stack.peek()]){
+                    int tmp = arr[stack.pop()];
+                    if(stack.isEmpty())                        
+                        max = Math.max(max,tmp * i);
+                    else
+                        max = Math.max(max, tmp * (i - stack.peek()-1));
+                }
+                stack.add(i);
+            }
+        }
+        
+        if(!stack.isEmpty()){
+            int i=arr.length;
+            while(!stack.isEmpty()){
+                int tmp = arr[stack.pop()];
+                if(stack.isEmpty())                        
+                    max = Math.max(max,tmp * i);
+                else
+                    max = Math.max(max, tmp * (i - stack.peek()-1));
+            }
+        }
+            
+        return max;
+    }
+}
