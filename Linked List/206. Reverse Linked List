@@ -1,0 +1,54 @@
+206. Reverse Linked List
+Easy
+
+5999
+
+117
+
+Add to List
+
+Share
+Reverse a singly linked list.
+
+Example:
+
+Input: 1->2->3->4->5->NULL
+Output: 5->4->3->2->1->NULL
+
+-------------------------------------------------------
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    List<Integer> lst =new ArrayList<>();
+    public ListNode reverseList(ListNode head) {
+        while(head!=null){
+            lst.add(head.val);
+            head=head.next;
+        }        
+        Collections.reverse(lst);
+        
+        ListNode newRoot=null;
+        ListNode ans=null;
+        
+        for(int i :lst){
+            if(newRoot==null){
+                newRoot = new ListNode(i);
+                ans=newRoot;
+            }else{
+               newRoot.next = new ListNode(i); 
+               newRoot=newRoot.next; 
+            }    
+        }
+        
+        return ans;
+    }
+}
